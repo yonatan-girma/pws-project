@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="Section_one dashboard">
+  <div class="container">
+    <div class="dsh" id="lep">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h2>{{ object.name }}</h2>
+
+        <div>
+          <a href="{% url 'assets:update' object.sub_category.id object.id %}" class="create_btn"
+             style="padding: 0.5rem 2rem 0.5rem 2rem; margin-right: 0.25rem;">
+            Edit
+          </a>
+
+          <a href="javascript:void(0)" class="create_btn" style="padding: 0.5rem 2rem 0.5rem 2rem;"
+             onclick="deleteAsset()">
+            Delete
+          </a>
+        </div>
+      </div>
+
+      <div class="assets_form" id="">
+        <div class="tabcontent">
+          <div class="tab_left">
+            <p><span>Category</span> {{ object.category }}</p>
+            <p><span>Sub-Category</span> {{ object.sub_category }}</p>
+            
+          </div>
+
+          <div class="tab_right">
+            <img style="max-height: 350px; max-width: 400px;" src="{{ object.image.url }}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+
+{% block javascript %}
+<script>
+  function deleteAsset() {
+    $(`<form method="POST" action="{% url 'assets:delete' object.sub_category.id object.id %}">{% csrf_token %}</form>`).appendTo("body").submit();
+  }
+</script>
+{% endblock javascript %}

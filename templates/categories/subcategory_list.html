@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="Section_one dashboard">
+  <div class="container">
+    <div class="dsh">
+      <h2>Sub-Categories</h2>
+
+      <div class="dh_box">
+        {% for sub_category in object_list %}
+        <div class="boxx">
+          <a href="{% url 'assets:list' sub_category.id %}">
+            <img src="{{ sub_category.image.url }}">
+            <h4>{{ sub_category.title }} ({{ sub_category.asset_set.count }})</h4>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

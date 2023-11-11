@@ -1,0 +1,40 @@
+{% load static %}
+
+<div class="header_min">
+  <div class="container">
+    <div class="header">
+      <div class="nav">
+        <input type="checkbox" id="nav-check">
+
+        <div class="nav-header">
+          <div class="nav-title">
+            <a href="{% url 'login' %}"><img src="{% static 'img/logo.png' %}"></a>
+          </div>
+        </div>
+
+        <div class="nav-btn">
+          <label for="nav-check">
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+
+        <div class="nav-links">
+          <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'categories:list' %}">Dashboard</a></li>
+            {% endif %}
+
+
+            {% if not user.is_authenticated %}
+            <li><a href="{% url 'users:login' %}">Dashboard</a></li>
+            {% else %}
+            <li><a href="javascript:void(0)" id="logout">Log out</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

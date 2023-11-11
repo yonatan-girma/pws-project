@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="Section_one dashboard">
+  <div class="container">
+    <div class="dsh">
+      <h2>{{ sub_category }}</h2>
+
+      <div class="dh_box">
+        {% for asset in object_list %}
+        <div class="boxx">
+          <a href="{% url 'assets:detail' asset.sub_category.id asset.id %}">
+            <img src="{{ asset.image.url }}">
+            <h3>{{ category.title }}</h3>
+          </a>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+{% endblock content %}

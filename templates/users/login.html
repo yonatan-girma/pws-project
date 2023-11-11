@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="Section_one dashboard">
+  <div class="container">
+    <div class="dsh" id="log">
+      <h3>Login</h3>
+
+      <div style="color: red;">{{ form.non_field_errors.0 }}</div>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <p>
+          <label for="uname"><b>Email</b></label>
+          {{ form.username }}
+        </p>
+
+        <p>
+          <label for="psw"><b>Password</b></label>
+          {{ form.password }}
+        </p>
+
+        <p><button type="submit" class="signupbtn">Submit</button></p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

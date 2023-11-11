@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% if title %}{{ title }} | {% endif %}Church</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="wrap">
+    {% if auth %}
+    {% include 'components/header.html' %}
+    <div class="slider_min" id="{% ifnotequal title 'Home' %}mbr{% endifnotequal %}">
+      <div class="container">
+        <div class="slider">
+          {% block heading %}{% endblock heading %}
+        </div>
+      </div>
+    </div>
+    {% else %}
+    {% include 'components/auth_header.html' %}
+    {% endif %}
+
+    {% block content %}{% endblock content %}
+
+    {% if auth %}
+    {% include 'components/footer.html' %}
+    {% endif %}
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+          integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  {% block javascript %}{% endblock javascript %}
+
+  <script>
+    $("#logout").click(() => {
+      $(`<form method="POST" action="{% url 'users:logout' %}">{% csrf_token %}</form>`).appendTo("body").submit();
+    });
+
+    function myFunction() {
+      let topnav = document.getElementById("myTopnav");
+      if (topnav.className === "topnav") topnav.className += " responsive";
+      else topnav.className = "topnav";
+    }
+
+    function openCity(evt, cityName) {
+      let tabcontent = document.getElementsByClassName("tabcontent");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+      let tablinks = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+  </script>
+</body>
+
+</html>

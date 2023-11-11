@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="Section_one dashboard">
+  <div class="container">
+    <div class="dsh">
+      {% if form.instance.id %}
+      <h2>Edit Asset</h2>
+      {% else %}
+      <h2>Add Asset</h2>
+      {% endif %}
+
+      <div class="assets_form">
+        <form method="POST" class="form-inline" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <p>
+            <label for="id_name">Asset Name</label>
+            {{ form.name }}
+            <small style="color: red;">{{ form.errors.name.0 }}</small>
+          </p>
+
+
+
+          <p class="hf">
+            <label for="id_category">Category</label>
+            {{ form.category }}
+            <small style="color: red;">{{ form.errors.category.0 }}</small>
+          </p>
+
+          <p class="hf">
+            <label for="id_sub_category">Sub-Category</label>
+            {{ form.sub_category }}
+            <small style="color: red;">{{ form.errors.sub_category.0 }}</small>
+          </p>
+
+
+
+          <p id="img">
+          <div class="chose">
+            {{ form.image }}
+            <small style="color: red;">{{ form.errors.image.0 }}</small>
+            <span id='val'></span>
+          </div>
+          </p>
+
+          <p>
+            {% if form.instance.id %}
+            <input value="Update Asset" type="submit" class="sbmt">
+            {% else %}
+            <input value="Add Asset" type="submit" class="sbmt">
+            {% endif %}
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+
+{% block javascript %}
+<script>
+  async function loadSubCategories() {
+    if ($("#id_category").val()) {
+      await $.ajax({
+        url: "{% url 'categories:sub_categories_list' 1 %}".replace(1, $("#id_category").val()),
+        method: "GET",
+        success(response) {
+          $("#id_sub_category").html(`<option value="">Select Sub-Category</option>`);
+          for (sub_category of response.sub_categories) {
+            $("#id_sub_category").append(`<option value="${sub_category.id}">${sub_category.title}</option>`);
+          }
+        }
+      });
+    }
+  }
+
+  $(document).ready(async function () {
+    let sub_category_id = $("#id_sub_category").val();
+    $("#id_sub_category").html(`<option value="">Select Sub-Category</option>`);
+    await loadSubCategories();
+    $("#id_sub_category").val(sub_category_id);
+  });
+
+  $("#id_category").change(function () {
+    $("#id_sub_category").html("");
+    loadSubCategories();
+  });
+</script>
+{% endblock javascript %}
